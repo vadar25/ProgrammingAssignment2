@@ -1,0 +1,39 @@
+##the makeCacheMatrix function: it creates a list:
+
+makeCacheMatrix <- function(m){
+		inv <- NULL
+		set <- function(m2){
+		m  <<- m2
+		inv <<-NULL
+		}
+		get <- function() m
+		setinverse <- function(inverse) inv <<- inverse
+		getinverse <- function() inv
+		list(set=set,get=get,setinverse=setinverse,
+		getinverse = getinverse)
+}
+
+##the cachsolve function
+	
+cacheSolve <- function(x){
+		inv <- x$getinverse()
+		if (!is.null(inv)){
+		message("getting stored data.")
+		return(inv)
+		}
+		mat <- 	x$get()
+		inv <- solve(mat)
+		x$setinverse(inv)
+		inv
+		
+	
+}
+
+##example to run it:
+
+matr <- matrix(c(1:4),2,2)
+
+m <- makeCacheMatrix(matr)
+
+cacheSolve(m)
+
