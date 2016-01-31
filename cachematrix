@@ -1,39 +1,60 @@
-##the makeCacheMatrix function: it creates a list:
+##the makeCacheMatrix function: it creates a list of four elements:
+## 1. set the value of the matrix.
+## 2. get the value of the matrix.
+## 3. set the inverse of the matrix.
+## 4. get the inverse of the matrix.
 
 makeCacheMatrix <- function(m){
+		##we set the default of the inv value to null
 		inv <- NULL
+		##any time when we set a new value to the matrix, it is setting the inverse to null again.
 		set <- function(m2){
 		m  <<- m2
 		inv <<-NULL
 		}
+		##getting the value of the matrix
 		get <- function() m
+		## store the inverse in the "inv" object
 		setinverse <- function(inverse) inv <<- inverse
+		## getting the inverse of the matrix
 		getinverse <- function() inv
+		## the return value/object of the function is a list of four elements:
 		list(set=set,get=get,setinverse=setinverse,
 		getinverse = getinverse)
 }
 
 ##the cachsolve function
-	
+##it is computing and storing the value of a matrix. The input argument is a list.(already created by the makeCacheMatrix function)	
 cacheSolve <- function(x){
+		##getting the inverse of the matrix. if it is not stored yet, it is obviously set to null
 		inv <- x$getinverse()
+		## with and if statement we check if it is not null then we don't compute the inverse again. 
+		## print the message that getting stored data and prints the value of the inverse matrix
 		if (!is.null(inv)){
 		message("getting stored data.")
 		return(inv)
 		}
+		## getting the value of the matrix into mat variable
 		mat <- 	x$get()
+		## solve function finds the inverse of the mat matrix and stores it into inv.
 		inv <- solve(mat)
+		## finally we cache the inverse.
 		x$setinverse(inv)
+		## we just output the result
 		inv
 		
 	
 }
 
 ##example to run it:
-
+ ## we create an invertible matrix
 matr <- matrix(c(1:4),2,2)
-
+## we call our first function and store its result in variable m. So m is a list of 4 elements.(strings)
 m <- makeCacheMatrix(matr)
-
+##we call catchesolve which computes the result and prints out for us. 
 cacheSolve(m)
+##we can call it again to see that the data is already strored.
+cacheSolve(m)
+##or we can simply call the getinverse function to see that the inverse is stored
+m$getinverse()
 
